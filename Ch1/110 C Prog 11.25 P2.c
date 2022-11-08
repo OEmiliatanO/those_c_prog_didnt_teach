@@ -18,20 +18,18 @@ int comp(const void * a, const void * b)
 	// a == 0, ret 0;
 	if (ha == hb) return 0;
 	// a > b, ret 1;
-	if (ha > hb) return 1;
+	return 1;
 }
 
 int main()
 {
-	char s[1000];
-	scanf("%[^\n]s", s); getchar();
-	int offset = 0, n, height, num = 0;
-	while(~sscanf(s + offset, "%d%n", &height, &n))
+	int height, num = 0;
+	while(~scanf("%d", &height))
 	{
 		students[num].num = num;
 		students[num].height = height;
 		++num;
-		offset += n;
+		if (getchar() == '\n') break;
 	}
 	qsort((void *)students, num, sizeof(student), comp);
 

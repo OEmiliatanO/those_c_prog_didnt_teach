@@ -2,6 +2,7 @@
 
 int main()
 {
+	char s[1000];
 	while(~scanf("%[^\n]s", s) && getchar())
 	{
 		int offset = 0, n, val;
@@ -9,6 +10,7 @@ int main()
 		{
 			offset += n;
 			// do some operation
+			printf("%d\n", val);
 		}
 	}
 }
