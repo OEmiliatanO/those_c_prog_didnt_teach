@@ -20,10 +20,8 @@ int parse(char *s, int *val, int *n)
 int main()
 {   
     char s[1000];
-    int cnt = -111;
-    while(~scanf("%[^\n]s%n", s, &cnt) && getchar())
+    while(~scanf("%[^\n]s%n", s) && getchar())
     {
-        printf("cnt = %d\n", cnt);
         int offset = 0, n, val;
         while(~parse(s + offset, &val, &n))
         {
