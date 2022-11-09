@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <string.h>
 #include <math.h>
 
 #define W_ 101
@@ -23,9 +24,17 @@ void drawF(func_t f_)
 
 void drawAxe()
 {
+	
 	for (int i = 0; i < W_; ++i)
 		for (int j = 0; j < H_; ++j)
-			output[j][i] = ' ';
+			output[j][i] = ' ';	
+	
+	/* another way
+	memset(output, ' ', sizeof(output));
+	for (int i = 0; i < H_; ++i)
+		output[i][W_] = '\0';
+	*/
+
 	for (int i = 0; i < W_; ++i)
 		output[H_ / 2][i] = '-';
 	for (int i = 0; i < H_; ++i)
@@ -51,6 +60,8 @@ void drawAxe()
 		output[H_/2 + i * 10][W_/2 + 2] = '0' + i;
 		output[H_/2 + i * 10][W_/2 + 3] = '0';
 	}
+	output[H_/2][W_ - 1] = '>';
+	output[0][W_/2] = '^';
 }
 
 double a, b, c, d;
