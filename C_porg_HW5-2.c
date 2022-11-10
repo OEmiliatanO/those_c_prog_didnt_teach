@@ -23,9 +23,11 @@ void drawF(func_t f_)
 
 void drawAxe()
 {
-	for (int i = 0; i < W_; ++i)
+	/* for (int i = 0; i < W_; ++i)
 		for (int j = 0; j < H_; ++j)
 			output[j][i] = ' ';
+	*/
+	
 	for (int i = 0; i < W_; ++i)
 		output[H_ / 2][i] = '-';
 	for (int i = 0; i < H_; ++i)
