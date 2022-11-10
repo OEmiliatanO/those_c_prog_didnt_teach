@@ -24,9 +24,6 @@ void drawF(func_t f_)
 
 void drawAxe()
 {
-<<<<<<< HEAD:C_porg_HW5-2.c
-=======
-	
 	for (int i = 0; i < W_; ++i)
 		for (int j = 0; j < H_; ++j)
 			output[j][i] = ' ';	
@@ -37,7 +34,6 @@ void drawAxe()
 		output[i][W_] = '\0';
 	*/
 
->>>>>>> 7fad0543a39a225fcedf53eec3071e8c3a444b0f:C_prog_HW5-2.c
 	for (int i = 0; i < W_; ++i)
 		output[H_ / 2][i] = '-';
 	for (int i = 0; i < H_; ++i)
