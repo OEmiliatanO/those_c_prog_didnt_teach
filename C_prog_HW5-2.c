@@ -24,6 +24,7 @@ void drawF(func_t f_)
 
 void drawAxe()
 {
+	// fill with space
 	for (int i = 0; i < W_; ++i)
 		for (int j = 0; j < H_; ++j)
 			output[j][i] = ' ';	
@@ -34,11 +35,18 @@ void drawAxe()
 		output[i][W_] = '\0';
 	*/
 
+	// draw x axis
 	for (int i = 0; i < W_; ++i)
 		output[H_ / 2][i] = '-';
+	
+	// draw y axis
 	for (int i = 0; i < H_; ++i)
 		output[i][W_ / 2] = '|';
+	
+	// draw origin
 	output[H_ / 2][W_ / 2] = '0';
+	
+	// draw xticks
 	for (int i = 1; i < W_/2 / 10; ++i)
 	{
 		output[H_ / 2][W_/2 + i * 10] = '|';
@@ -50,6 +58,8 @@ void drawAxe()
 		output[H_ / 2 - 1][W_/2 - i * 10 - 1] = '0' + i;
 		output[H_ / 2 - 1][W_/2 - i * 10] = '0';
 	}
+	
+	// draw yticks
 	for (int i = 1; i < W_/2 / 10; ++i)
 	{
 		output[H_/2 - i * 10][W_/2 + 1] = '0' + i;
@@ -59,10 +69,13 @@ void drawAxe()
 		output[H_/2 + i * 10][W_/2 + 2] = '0' + i;
 		output[H_/2 + i * 10][W_/2 + 3] = '0';
 	}
+	
+	// draw arrow of x, y axis
 	output[H_/2][W_ - 1] = '>';
 	output[0][W_/2] = '^';
 }
 
+// target function
 double a, b, c, d;
 double f(double x)
 {
