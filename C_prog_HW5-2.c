@@ -12,13 +12,13 @@ typedef double (*func_t)(double);
 char output[H_ + 1][W_ + 1];
 void drawF(func_t f_)
 {
-	int origin = W_ / 2;
+	int originX = W_ / 2, originY = H_ / 2;
 	for (int i = 0; i < W_; ++i)
 	{
-		int y = (int)ceil(f_(i - origin));
+		int y = (int)ceil(f_(i - originX));
 		y = -y;
-		if (y + origin < H_ && y + origin >= 0)
-			output[y + origin][i] = '*';
+		if (y + originY < H_ && y + originY >= 0)
+			output[y + originY][i] = '*';
 	}
 }
 
