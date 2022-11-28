@@ -7,7 +7,7 @@
 typedef struct node
 {
 	int val;
-	struct node *prev, *nex;
+	struct node *prev, *next;
 }node;
 
 // define struct
@@ -21,7 +21,7 @@ typedef struct list
 node *create_node(int val)
 {
 	node *n = (node *)malloc(sizeof(node));
-	n->prev = n->nex = NULL;
+	n->prev = n->next = NULL;
 	n->val = val;
 	return n;
 }
@@ -33,7 +33,7 @@ list* create_list()
 	p->size = 0;
 	p->head = create_node(0);
 	p->tail = create_node(0);
-	p->head->nex = p->tail;
+	p->head->next = p->tail;
 	p->tail->prev = p->head;
 	return p;
 }
@@ -44,16 +44,17 @@ void insert(list *p, int pos, int val)
 	if (p->size < pos) return;
 	
 	// go to the position
-	node *now = p->head;
+	node *x = p->head;
 	for (int i = 0; i < pos; ++i)
-		now = now->nex;
+		x = x->next;
+	node *y = x->next;
 	
 	// insert the node
-	node *n = create_node(val);
-	n->nex = now->nex;
-	n->prev = now;
-	now->nex = n;
-	n->nex->prev = n;
+	node *new_node = create_node(val);
+	new_node->prev = x;
+	new_node->next = y;
+	x->next = new_node;
+	y->prev = new_node;
 
 	++p->size;
 }
@@ -67,14 +68,15 @@ void delete(list *p, int pos)
 	if (p->size <= pos) return;
 	
 	// go to the position
-	node *now = p->head;
+	node *y = p->head;
 	for (int i = 0; i <= pos; ++i)
-		now = now->nex;
-	
+		y = y->next;
+	node *x = y->prev, *z = y->next;
+
 	// concatenate the previous and next nodes
-	now->prev->nex = now->nex;
-	now->nex->prev = now->prev;
-	free(now);
+	x->next = z;
+	z->prev = x;
+	free(y);
 
 	--p->size;
 }
@@ -82,11 +84,11 @@ void delete(list *p, int pos)
 void print_list(list *p)
 {
 	if (p->size == 0) { puts("empty"); return; }
-	node *now = p->head->nex;
+	node *now = p->head->next;
 	while(now != p->tail)
 	{
 		printf("%d ", now->val);
-		now = now->nex;
+		now = now->next;
 	}
 	puts("");
 }

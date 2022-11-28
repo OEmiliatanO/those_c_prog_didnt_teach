@@ -6,7 +6,7 @@
 typedef struct node
 {
 	int val;
-	struct node *prev, *nex;
+	struct node *prev, *next;
 }node;
 // define list struct
 typedef struct list
@@ -19,7 +19,7 @@ typedef struct list
 node *create_node(int val)
 {
 	node *n = (node *)malloc(sizeof(node));
-	n->prev = n->nex = NULL;
+	n->prev = n->next = NULL;
 	n->val = val;
 	return n;
 }
@@ -46,39 +46,41 @@ void insert(list *p, int pos, int val)
 	if (p->size <= pos) return;
 	
 	// go to the position
-	node *now = p->head;
+	node *x = p->head;
 	for (int i = 0; i < pos; ++i)
-		now = now->nex;
+		x = x->next;
 	
+	node *y = x->next;
 	// put node in now->nex
-	if (now->nex) // case 1: now->nex isn't a NULL node
+	if (y) // case 1: now->nex isn't a NULL node
 	{
-		node *n = create_node(val);
-		n->nex = now->nex;
-		n->prev = now;
-		now->nex = n;
-		n->nex->prev = n;
+		node *new_node = create_node(val);
+		new_node->prev = x;
+		new_node->next = y;
+		x->next = new_node;
+		y->prev = new_node;
 	}
 	else // case 1: now->nex is a NULL node
 	{
-		now->nex = create_node(val);
-		now->nex->prev = now;
-		p->tail = now->nex;
+		node *new_node = create_node(val);
+		new_node->prev = x;
+		x->next = new_node;
+		p->tail = x->next;
 	}
 	++p->size;
 }
 
 void insert_front(list *p, int val)
 {
-	node *now = create_node(val);
-	now->nex = p->head;
+	node *x = create_node(val);
+	x->next = p->head;
 	
 	if (p->head)
-		p->head->prev = now;
+		p->head->prev = x;
 	else
-		p->head = p->tail = now;
+		p->head = p->tail = x;
 	
-	p->head = now;
+	p->head = x;
 	++p->size;
 }
 
@@ -91,43 +93,45 @@ void delete(list *p, int pos)
 	if (p->size <= pos) return;
 	
 	// go to the position
-	node *now = p->head;
+	node *y = p->head;
 	for (int i = 0; i < pos; ++i)
-		now = now->nex;
-	
+		y = y->next;
+
+	node *x = y->prev;
+	node *z = y->next;
 	// special case
 	if (p->size == 1)
 	{
-		free(now);
+		free(y);
 		--p->size;
 		p->head = p->tail = NULL;
 		return;
 	}
 	// special case
-	if (now == p->head)
+	if (y == p->head)
 	{
-		p->head = now->nex;
+		p->head = y->next;
 		if (p->head)
 			p->head->prev = NULL;
-		free(now);
+		free(y);
 		--p->size;
 		return;
 	}
 	// special case
-	if (now == p->tail)
+	if (y == p->tail)
 	{
-		p->tail = now->prev;
+		p->tail = y->prev;
 		if (p->tail)
-			p->tail->nex = NULL;
-		free(now);
+			p->tail->next = NULL;
+		free(y);
 		--p->size;
 		return;
 	}
 	
 	// delete the target node
-	now->prev->nex = now->nex;
-	now->nex->prev = now->prev;
-	free(now);
+	x->next = z;
+	z->prev = x;
+	free(y);
 	--p->size;
 }
 
@@ -137,7 +141,7 @@ void print_list(list *p)
 	while(now)
 	{
 		printf("%d ", now->val);
-		now = now->nex;
+		now = now->next;
 	}
 	puts("");
 }
